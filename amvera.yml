@@ -4,10 +4,5 @@ meta:
     name: npm
     version: 20
 
-build:
-  commands:
-    - npm install
-    - npm run build
-
 run:
-  command: npx next start -p 8080
+  command: npm install && npm run build && npx next start -p 8080
