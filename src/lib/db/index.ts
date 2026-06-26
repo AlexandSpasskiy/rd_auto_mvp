@@ -8,7 +8,13 @@ import { count } from "drizzle-orm";
 import * as schema from "./schema";
 import { seedDatabase } from "./seed";
 
-const DATA_DIR = path.join(process.cwd(), "data");
+const configuredDataDir = process.env.DATA_DIR?.trim();
+const appRoot = /* turbopackIgnore: true */ process.cwd();
+const DATA_DIR = configuredDataDir
+  ? path.isAbsolute(configuredDataDir)
+    ? configuredDataDir
+    : path.join(appRoot, configuredDataDir)
+  : path.join(appRoot, "data");
 const DB_PATH = path.join(DATA_DIR, "app.db");
 
 function ensureDatabase() {

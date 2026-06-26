@@ -65,6 +65,59 @@ npm run build
 npm start
 ```
 
+## Хостинг в РФ (кроме Vercel)
+
+Под MVP c SQLite лучше всего подойдут провайдеры, где можно запускать Docker-контейнер и подключить volume под базу:
+
+- **Amvera** — быстрый деплой из GitHub, удобно для демо
+- **Timeweb Cloud** — контейнерный сервис + managed VM
+- **Selectel Cloud** — Kubernetes/containers/VM, гибко под рост
+- **Yandex Cloud** — App/Container/VM, хороший запас для масштабирования
+- **VK Cloud** — облачные VM/контейнеры, тоже подходит для MVP
+
+Практический выбор для "показать покупателю быстро": **Amvera** или **Timeweb Cloud**.
+
+## Прод-деплой через Docker
+
+Проект подготовлен под контейнерный запуск.
+
+### 1) Подготовьте env
+
+```bash
+copy .env.example .env
+```
+
+Обязательно задайте:
+
+- `ADMIN_USERNAME`
+- `ADMIN_PASSWORD`
+- `SESSION_SECRET` (минимум 32 символа)
+- `DATA_DIR` (по умолчанию `data`)
+
+### 2) Локальная проверка как в проде
+
+```bash
+docker compose up --build -d
+```
+
+Проверка:
+
+- Сайт: `http://localhost:3000`
+- Health: `http://localhost:3000/api/health`
+
+Остановка:
+
+```bash
+docker compose down
+```
+
+### 3) Что важно для облака
+
+- Пробросить порт контейнера `3000`
+- Подключить persistent storage/volume в `/app/data`
+- Передать переменные окружения из `.env`
+- В healthcheck использовать `GET /api/health`
+
 ## Структура
 
 ```
