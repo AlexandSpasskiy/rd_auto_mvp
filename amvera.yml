@@ -5,4 +5,4 @@ meta:
     version: 20
 
 run:
-  command: npm install && NODE_OPTIONS="--max-old-space-size=450" npx next build --no-lint && npx next start -p 8080
+  command: npm install && npm run build && npx next start -p 8080
